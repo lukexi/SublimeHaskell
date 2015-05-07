@@ -154,8 +154,7 @@ def show_output_result_text(view, msg, text, exit_code, base_dir):
     show_status_message_process(msg, success)
     # Show panel if there is any text to show (without the part that we add)
     if text:
-        if get_setting_async('show_output_window'):
-            sublime.set_timeout(lambda: write_output(view, output, base_dir), 0)
+        sublime.set_timeout(lambda: write_output(view, output, base_dir), 0)
 
 
 def parse_output_messages_and_show(view, msg, base_dir, exit_code, stderr):
@@ -308,7 +307,8 @@ def write_output(view, text, cabal_project_dir):
     output_view.sel().add(sublime.Region(0))
     output_view.set_read_only(True)
     # Show the results panel:
-    view.window().run_command('show_panel', {'panel': 'output.' + ERROR_PANEL_NAME})
+    if get_setting_async('show_output_window'):
+        view.window().run_command('show_panel', {'panel': 'output.' + ERROR_PANEL_NAME})
 
 
 def hide_output(view):
